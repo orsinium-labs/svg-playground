@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Loading WPS Playground...</title>
+  <title>Loading svg.py playground...</title>
   <link rel="shortcut icon" href="favicon.ico">
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
@@ -14,6 +14,7 @@
   </script>
   <script src="./wasm_exec.js"></script>
 
+  <!-- import web IDE (CodeMirror) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.min.js"
     integrity="sha512-WWC1A/JchDFZ2ZGaNyMC7CmPFXGLI/6Ih7WN6YG0DX1NGMkW5lqCVFxCmEx3e56Z7iqdQGpO0f+m2t9CJhdb2Q=="
     crossorigin="anonymous"></script>
@@ -29,10 +30,10 @@
 </head>
 
 <body>
-  <h1 class="text-center">WPS Playground</h1>
+  <h1 class="text-center">svg.py playground</h1>
   <h5 class="text-center">
-    <a href="https://github.com/wemake-services/wemake-python-styleguide" target="_blank">wemake-python-styleguide</a>
-    playground (<a href="https://github.com/orsinium-labs/wps-playground" target="_blank">GitHub</a>)
+    <a href="https://github.com/orsinium-labs/svg.py" target="_blank">svg.py</a>
+    playground (<a href="https://github.com/orsinium-labs/svg-playground" target="_blank">GitHub</a>)
   </h5>
   <div class="container">
     <div class="row">
@@ -51,7 +52,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">setup.cfg</h5>
-            <pre class="card-text" id="py-config" contenteditable="true"></pre>
+            <pre class="card-text" id="py-canvas" contenteditable="true"></pre>
           </div>
         </div>
       </div>
