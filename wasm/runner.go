@@ -26,7 +26,7 @@ type Violation struct {
 
 func NewRunner(win web.Window, doc web.Document, editor web.Value, py *Python) Runner {
 	return Runner{
-		btn:    doc.Element("py-lint"),
+		btn:    doc.Element("py-run-button"),
 		canvas: doc.Element("py-canvas"),
 		doc:    doc,
 		win:    win,

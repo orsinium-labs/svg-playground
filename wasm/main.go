@@ -43,9 +43,7 @@ func main() {
 
 	runner := NewRunner(window, doc, editor, &py)
 	runner.Register()
-
-	py.Clear()
-	py.PrintOut("Ready!")
+	go runner.Run()
 
 	select {}
 }

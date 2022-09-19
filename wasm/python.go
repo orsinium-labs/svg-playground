@@ -14,12 +14,14 @@ type Python struct {
 }
 
 func (py *Python) Register() {
-	wrapped := func(this js.Value, args []js.Value) interface{} {
+	handler := func(event web.Event) {
 		cmd := py.doc.Element("py-input-text").Get("value").String()
 		py.RunAndPrint(cmd)
-		return true
+		event.PreventDefault()
 	}
-	py.doc.Element("py-input-form").Call("addEventListener", "submit", js.FuncOf(wrapped))
+	py.doc.Element("py-input-form").EventTarget().Listen(
+		web.EventTypeSubmit, handler,
+	)
 }
 
 func (py Python) print(text string, cls string) {

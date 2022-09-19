@@ -1,3 +1,8 @@
+# This example is based on the tutorial from MSDN docs:
+# https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
+#
+# The canvas on the right contains the SVG image from the `canvas` variable.
+# Press the "draw" button to re-draw the image.
 import svg
 
 
@@ -15,6 +20,7 @@ def heart_path():
 canvas = svg.SVG(
     viewBox=svg.ViewBoxSpec(-40, 0, 150, 100),
     elements=[
+        # the grey shadow
         svg.Path(
             d=heart_path(),
             fill="grey",
@@ -25,6 +31,7 @@ canvas = svg.SVG(
                 svg.Scale(1, 0.5),
             ],
         ),
+        # the red shape
         svg.Path(
             d=heart_path(),
             fill="none",
@@ -32,4 +39,3 @@ canvas = svg.SVG(
         ),
     ],
 )
-canvas
