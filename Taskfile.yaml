@@ -1,0 +1,32 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  build-frontend:
+    env:
+      GOOS: js
+      GOARCH: wasm
+      GOROOT:
+        sh: go env GOROOT
+    cmds:
+      - mkdir -p public
+      - cp ./frontend/* ./public/
+      - cp "$GOROOT/misc/wasm/wasm_exec.js" ./public/wasm_exec.js
+      - go build -o public/frontend.wasm ./wasm/
+
+  build-server:
+    cmds:
+      - go build -o server.bin ./server/
+
+  build:
+    cmds:
+      - task: build-frontend
+      - task: build-server
+
+
+  run:
+    deps:
+      - build
+    cmds:
+      - ./server.bin

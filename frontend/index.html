@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Loading WPS Playground...</title>
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js" crossorigin="anonymous">
+  </script>
+  <script src="./wasm_exec.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.min.js"
+    integrity="sha512-WWC1A/JchDFZ2ZGaNyMC7CmPFXGLI/6Ih7WN6YG0DX1NGMkW5lqCVFxCmEx3e56Z7iqdQGpO0f+m2t9CJhdb2Q=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.min.css"
+    integrity="sha512-xIf9AdJauwKIVtrVRZ0i4nHP61Ogx9fSRAkCLecmE2dL/U8ioWpDvFCAy4dcfecN72HHB9+7FfQj3aiO68aaaw=="
+    crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/python/python.min.js"
+    integrity="sha512-DS+asaww1mE0V/N6YGVgoNIRj+yXB9hAV68vM6rVeWs0G+OyMd24LKrnS4Z+g26rgghU7qvGeEnRVUArV7nVog=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/theme/monokai.min.css"
+    integrity="sha512-R6PH4vSzF2Yxjdvb2p2FA06yWul+U0PDDav4b/od/oXf9Iw37zl10plvwOXelrjV2Ai7Eo3vyHeyFUjhXdBCVQ=="
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <h1 class="text-center">WPS Playground</h1>
+  <h5 class="text-center">
+    <a href="https://github.com/wemake-services/wemake-python-styleguide" target="_blank">wemake-python-styleguide</a>
+    playground (<a href="https://github.com/orsinium-labs/wps-playground" target="_blank">GitHub</a>)
+  </h5>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">code.py</h5>
+            <textarea class="card-text" id="py-code" contenteditable="true">a=1+2</textarea>
+            <button href="#" class="btn btn-outline-primary" disabled id="py-lint">
+              loading...
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">setup.cfg</h5>
+            <pre class="card-text" id="py-config" contenteditable="true"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">console</h5>
+            <div class="card-text" id="py-output"></div>
+            <form class="card-text", id="py-input-form" action="#py-input-form">
+              <input type="text" class="form-control" id="py-input-text" placeholder=">>>" autocomplete="off"/>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- load syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js"
+    integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw=="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js"
+    integrity="sha512-jufbyMC+y5pH6dbL/adxAoUWkeGLwx6meC+9yoqY9CFLd4zpC9s5hU9c+stY2uHoYy2lIUih+HbYJIqTZxhCQQ=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/a11y-light.min.css"
+    integrity="sha512-PW96n2amVglidqEDLPUdjJ0zByhT20poSqWJYZRutR6CP2QH58k96WmorqNnC4QXnosNeqMJM8FR/93isIifDQ=="
+    crossorigin="anonymous" />
+  <script>
+    function highlight() {
+      document.querySelectorAll('code').forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    }
+
+  </script>
+
+  <!-- load WASM script -->
+  <script src="./loader.js"></script>
+
+</body>
+
+</html>
