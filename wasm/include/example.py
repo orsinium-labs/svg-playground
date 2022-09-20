@@ -3,10 +3,10 @@
 import svg
 from random import choice
 
-rows = 5
-columns = 5
-width = 50
-height = 50
+rows = 4
+columns = 6
+width = 60
+height = 40
 radius = 4
 colors = [
     '#2ecc71',
@@ -38,8 +38,8 @@ step_y = height // rows
 for col in range(columns):
     for row in range(rows):
         circles.extend(random_circles(
-            x=step_x * row + step_x // 2,
-            y=step_y * col + step_y // 2,
+            x=step_x * col + step_x // 2,
+            y=step_y * row + step_y // 2,
         ))
 
 
