@@ -1,41 +1,49 @@
-# This example is based on the tutorial from MSDN docs:
-# https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
-#
 # The canvas on the right contains the SVG image from the `canvas` variable.
 # Press the "draw" button to re-draw the image.
 import svg
+from random import choice
+
+rows = 5
+columns = 5
+width = 50
+height = 50
+radius = 4
+colors = [
+    '#2ecc71',
+    '#3498db',
+    '#9b59b6',
+    '#34495e',
+    '#e67e22',
+    '#e74c3c',
+    '#7f8c8d',
+]
 
 
-def heart_path():
-    return [
-        svg.M(10, 30),
-        svg.Arc(20, 20, 0, False, True, x=50, y=30),
-        svg.Arc(20, 20, 0, False, True, x=90, y=30),
-        svg.Q(90, 60, 50, 90),
-        svg.Q(10, 60, 10, 30),
-        svg.Z(),
-    ]
+def random_circles(x, y):
+    yield svg.Circle(
+        cx=x, cy=y, r=radius,
+        fill=choice(colors),
+    )
+    yield svg.Circle(
+        cx=x, cy=y, r=radius // 2,
+        fill='none',
+        stroke='white',
+        stroke_width=1,
+    )
+
+
+circles = []
+step_x = width // columns
+step_y = height // rows
+for col in range(columns):
+    for row in range(rows):
+        circles.extend(random_circles(
+            x=step_x * row + step_x // 2,
+            y=step_y * col + step_y // 2,
+        ))
 
 
 canvas = svg.SVG(
-    viewBox=svg.ViewBoxSpec(-40, 0, 150, 100),
-    elements=[
-        # the grey shadow
-        svg.Path(
-            d=heart_path(),
-            fill="grey",
-            transform=[
-                svg.Rotate(-10, 50, 100),
-                svg.Translate(-36, 45.5),
-                svg.SkewX(40),
-                svg.Scale(1, 0.5),
-            ],
-        ),
-        # the red shape
-        svg.Path(
-            d=heart_path(),
-            fill="none",
-            stroke="red",
-        ),
-    ],
+    viewBox=svg.ViewBoxSpec(0, 0, width, height),
+    elements=circles,
 )
