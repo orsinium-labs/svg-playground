@@ -1,14 +1,10 @@
 package main
 
 import (
-	"syscall/js"
-
 	"github.com/life4/gweb/web"
 )
 
 type Runner struct {
-	btn    web.HTMLElement
-	canvas web.HTMLElement
 	doc    web.Document
 	win    web.Window
 	editor web.Value
@@ -26,8 +22,6 @@ type Violation struct {
 
 func NewRunner(win web.Window, doc web.Document, editor web.Value, py *Python) Runner {
 	return Runner{
-		btn:    doc.Element("py-run-button"),
-		canvas: doc.Element("py-canvas"),
 		doc:    doc,
 		win:    win,
 		editor: editor,
@@ -36,29 +30,31 @@ func NewRunner(win web.Window, doc web.Document, editor web.Value, py *Python) R
 
 }
 
-func (fh *Runner) Register() {
-	fh.btn.SetInnerHTML("draw")
-	fh.btn.Set("disabled", false)
+func (r *Runner) Register() {
+	btn := r.doc.Element("py-run-button")
+	btn.SetInnerHTML("draw")
+	btn.Set("disabled", false)
 
-	wrapped := func(this js.Value, args []js.Value) interface{} {
-		fh.btn.SetInnerHTML("running...")
-		fh.btn.Set("disabled", true)
-		fh.Run()
-		go fh.Register()
-		return true
+	handler := func(event web.Event) {
+		btn.SetInnerHTML("running...")
+		btn.Set("disabled", true)
+		r.Run()
+		btn.SetInnerHTML("draw")
+		btn.Set("disabled", false)
+		event.PreventDefault()
 	}
-	fh.btn.Call("addEventListener", "click", js.FuncOf(wrapped))
+	btn.EventTarget().Listen(web.EventTypeClick, handler)
 }
 
-func (fh *Runner) Run() {
-	fh.py.Clear()
-	script := fh.editor.Call("getValue").String()
-	ok := fh.py.RunAndPrint(script)
+func (r *Runner) Run() {
+	r.py.Clear()
+	script := r.editor.Call("getValue").String()
+	ok := r.py.RunAndPrint(script)
 	if !ok {
 		return
 	}
 
-	fh.py.Clear()
-	svg := fh.py.Run("str(canvas)")
-	fh.canvas.SetInnerHTML(svg)
+	r.py.Clear()
+	svg := r.py.Run("str(canvas)")
+	r.doc.Element("py-canvas").SetInnerHTML(svg)
 }
