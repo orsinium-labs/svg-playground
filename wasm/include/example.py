@@ -35,12 +35,9 @@ def random_circles(x, y):
 circles = []
 step_x = width // columns
 step_y = height // rows
-for col in range(columns):
-    for row in range(rows):
-        circles.extend(random_circles(
-            x=step_x * col + step_x // 2,
-            y=step_y * row + step_y // 2,
-        ))
+for x in range(step_x // 2, width, step_x):
+    for y in range(step_y // 2, height, step_y):
+        circles.extend(random_circles(x=x, y=y))
 
 
 canvas = svg.SVG(
