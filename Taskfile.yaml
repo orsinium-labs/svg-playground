@@ -7,7 +7,12 @@ tasks:
     status:
       - which wasm-opt
     cmds:
-      - apt install binaryen
+      - wget https://github.com/WebAssembly/binaryen/releases/download/version_108/binaryen-version_108-x86_64-linux.tar.gz
+      - tar -xf binaryen-version_108-x86_64-linux.tar.gz
+      - rm binaryen-version_108-x86_64-linux.tar.gz
+      - mv binaryen-version_108/bin/* ~/.local/bin
+      - rm -rf binaryen-version_108
+      - wasm-opt --version
 
   build-frontend:
     env:
