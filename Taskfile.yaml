@@ -1,8 +1,20 @@
 # https://taskfile.dev
 
-version: '3'
+version: "3"
 
 tasks:
+  install-binaryen:
+    status:
+      - test -f ./bin/wasm-opt
+    cmds:
+      - wget https://github.com/WebAssembly/binaryen/releases/download/version_108/binaryen-version_108-x86_64-linux.tar.gz
+      - tar -xf binaryen-version_108-x86_64-linux.tar.gz
+      - rm binaryen-version_108-x86_64-linux.tar.gz
+      - mkdir -p bin
+      - mv binaryen-version_108/bin/* bin/
+      - rm -rf binaryen-version_108
+      - ./bin/wasm-opt --version
+
   build-frontend:
     env:
       GOOS: js
@@ -15,6 +27,12 @@ tasks:
       - cp "$GOROOT/misc/wasm/wasm_exec.js" ./public/wasm_exec.js
       - go build -o public/frontend.wasm ./wasm/
 
+  optimize-wasm:
+    deps:
+      - install-binaryen
+    cmds:
+      - ./bin/wasm-opt -Oz -o public/frontend.wasm public/frontend.wasm
+
   build-server:
     cmds:
       - go build -o server.bin ./server/
@@ -22,8 +40,8 @@ tasks:
   build:
     cmds:
       - task: build-frontend
+      - task: optimize-wasm
       - task: build-server
-
 
   run:
     deps:
