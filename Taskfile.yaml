@@ -7,7 +7,7 @@ tasks:
     status:
       - which wasm-opt
     cmds:
-      - sudo apt install binaryen
+      - apt install binaryen
 
   build-frontend:
     env:
