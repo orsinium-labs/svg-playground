@@ -14,10 +14,6 @@ func main() {
 	scripts := NewScripts()
 	ex := scripts.ReadExample()
 	input.SetInnerHTML(ex)
-	window.Get("CodeMirror").Call(
-		"registerHelper", "hintWords", "python",
-		[]any{"abs", "str", "len", "cat", "svg.SVG", "svg.Element"},
-	)
 	editor := window.Get("CodeMirror").Call("fromTextArea",
 		input.JSValue(),
 		map[string]any{
@@ -28,8 +24,6 @@ func main() {
 			},
 		},
 	)
-	ac := AutoComplete{editor: editor}
-	ac.Register()
 
 	// load python
 	py := Python{doc: doc, output: doc.Element("py-output")}
@@ -50,6 +44,14 @@ func main() {
 		return
 	}
 	py.Install("svg.py")
+
+	// activate autocomplete
+	ac := AutoComplete{
+		editor: editor,
+		window: window,
+		py:     py,
+	}
+	ac.Register()
 
 	runner := NewRunner(window, doc, editor, &py)
 	runner.Register()
