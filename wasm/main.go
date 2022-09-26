@@ -1,6 +1,8 @@
 package main
 
 import (
+	"syscall/js"
+
 	"github.com/life4/gweb/web"
 )
 
@@ -14,12 +16,25 @@ func main() {
 	scripts := NewScripts()
 	ex := scripts.ReadExample()
 	input.SetInnerHTML(ex)
+	window.Get("CodeMirror").Call(
+		"registerHelper", "hintWords", "python",
+		[]any{"abs", "str", "len", "cat", "svg.SVG", "svg.Element"},
+	)
 	editor := window.Get("CodeMirror").Call("fromTextArea",
 		input.JSValue(),
-		map[string]interface{}{
+		map[string]any{
 			"lineNumbers": true,
+			"mode":        "python",
+			"hintOptions": map[string]any{
+				"completeSingle": false,
+			},
 		},
 	)
+	autocomplete := js.FuncOf(func(this js.Value, args []js.Value) any {
+		editor.Call("showHint")
+		return nil
+	})
+	editor.Call("on", "inputRead", autocomplete)
 
 	// load python
 	py := Python{doc: doc, output: doc.Element("py-output")}
