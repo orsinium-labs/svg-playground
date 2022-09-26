@@ -19,10 +19,15 @@ type AutoComplete struct {
 func (a *AutoComplete) Register() {
 	a.py.Run("import builtins")
 	builtins := strings.Split(a.py.Run("' '.join(dir(builtins))"), " ")
+	a.py.Run("import svg")
+	svg := strings.Split(a.py.Run("' '.join(f'svg.{v}' for v in dir(svg))"), " ")
 
-	globals := make([]any, len(builtins))
-	for i, v := range builtins {
-		globals[i] = v
+	globals := make([]any, 0, len(builtins)+len(svg))
+	for _, v := range builtins {
+		globals = append(globals, v)
+	}
+	for _, v := range svg {
+		globals = append(globals, v)
 	}
 
 	a.window.Get("CodeMirror").Call("registerHelper", "hintWords", "python", globals)
