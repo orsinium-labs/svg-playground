@@ -1,8 +1,6 @@
 package main
 
 import (
-	"syscall/js"
-
 	"github.com/life4/gweb/web"
 )
 
@@ -30,11 +28,8 @@ func main() {
 			},
 		},
 	)
-	autocomplete := js.FuncOf(func(this js.Value, args []js.Value) any {
-		editor.Call("showHint")
-		return nil
-	})
-	editor.Call("on", "inputRead", autocomplete)
+	ac := AutoComplete{editor: editor}
+	ac.Register()
 
 	// load python
 	py := Python{doc: doc, output: doc.Element("py-output")}
