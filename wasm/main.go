@@ -16,8 +16,12 @@ func main() {
 	input.SetInnerHTML(ex)
 	editor := window.Get("CodeMirror").Call("fromTextArea",
 		input.JSValue(),
-		map[string]interface{}{
+		map[string]any{
 			"lineNumbers": true,
+			"mode":        "python",
+			"hintOptions": map[string]any{
+				"completeSingle": false,
+			},
 		},
 	)
 
@@ -40,6 +44,14 @@ func main() {
 		return
 	}
 	py.Install("svg.py")
+
+	// activate autocomplete
+	ac := AutoComplete{
+		editor: editor,
+		window: window,
+		py:     py,
+	}
+	ac.Register()
 
 	runner := NewRunner(window, doc, editor, &py)
 	runner.Register()

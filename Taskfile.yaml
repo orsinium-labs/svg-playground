@@ -40,7 +40,6 @@ tasks:
   build:
     cmds:
       - task: build-frontend
-      - task: optimize-wasm
       - task: build-server
 
   run:
