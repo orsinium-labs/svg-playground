@@ -20,7 +20,7 @@ func (a *AutoComplete) Register() {
 	a.py.Run("import builtins")
 	builtins := strings.Split(a.py.Run("' '.join(dir(builtins))"), " ")
 	a.py.Run("import svg")
-	svg := strings.Split(a.py.Run("' '.join(f'svg.{v}' for v in dir(svg))"), " ")
+	svg := strings.Split(a.py.Run("' '.join(dir(svg))"), " ")
 
 	globals := make([]any, 0, len(builtins)+len(svg))
 	for _, v := range builtins {
